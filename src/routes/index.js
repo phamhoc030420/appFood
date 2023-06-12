@@ -7,6 +7,7 @@ import Form3 from '../component/form3';
 import TabButton from './tabButton';
 import Form4 from '../component/form4';
 import Search from '../component/search';
+import Form5 from '../component/form5';
 const Stack = createNativeStackNavigator();
 const Route = () => {
   return (
@@ -18,6 +19,7 @@ const Route = () => {
         <Stack.Screen name="Home" component={TabButton} />
         <Stack.Screen name="form3" component={Form3} />
         <Stack.Screen name="Cart" component={Form4} />
+        <Stack.Screen name="form5" component={Form5} />
         <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -14,12 +14,9 @@ import {TextInput} from 'react-native-paper';
 import {ButtonGroup} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import LottieView from 'lottie-react-native';
 const Form4 = ({route}) => {
   const navigation = useNavigation();
-  const {img, money, count, title} = route.params;
-  const [showLottie, setShowLottie] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const {img, money, count, title} = route?.params;
   const [totalCount, setTotalCount] = useState(count);
   const [totalMoney, setTotalMoney] = useState(money);
   useEffect(() => {
@@ -29,7 +26,8 @@ const Form4 = ({route}) => {
   }, [totalCount]);
   const handleSubmit = () => {
     if (totalCount > 0) {
-      setShowLottie(true);
+      navigation.navigate('form5', {totalMoney});
+
       setTotalMoney(0);
       setTotalCount(0);
     } else {
@@ -52,15 +50,6 @@ const Form4 = ({route}) => {
             backgroundColor: '#FFFF',
             flex: 1,
           }}>
-          {showLottie && (
-            <LottieView
-              style={{zIndex: 10}}
-              source={require('../../assets/animation/animation.json')}
-              autoPlay
-              loop={false}
-              onAnimationFinish={() => setShowLottie(false)}
-            />
-          )}
           <View style={{marginHorizontal: 20, marginTop: 40}}>
             <Text style={{color: 'black', fontSize: 20, fontWeight: 500}}>
               {totalCount < 0 ? 0 : totalCount} items in cart
