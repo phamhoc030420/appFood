@@ -173,7 +173,13 @@ const Form2 = () => {
             }}>
             Hi Alex
           </Text>
-          <Text style={{fontSize: 21, fontWeight: 600, marginLeft: 23}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 21,
+              fontWeight: 600,
+              marginLeft: 23,
+            }}>
             Find your Delicious Food
           </Text>
           <View style={{flexDirection: 'row', marginTop: 28, marginLeft: 27}}>

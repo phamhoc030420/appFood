@@ -13,12 +13,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TextInput} from 'react-native-paper';
 import {ButtonGroup} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import PhoneInput from 'react-native-phone-number-input';
 import Toast from 'react-native-toast-message';
 const Form4 = ({route}) => {
+  const windowWidth = Dimensions.get('window').width;
   const navigation = useNavigation();
   const {img, money, count, title} = route?.params;
   const [totalCount, setTotalCount] = useState(count);
   const [totalMoney, setTotalMoney] = useState(money);
+  const [value, setValue] = useState('');
+  const [formattedValue, setFormattedValue] = useState('');
+  const [valid, setValid] = useState(false);
+  const phoneInput = useRef(null);
   useEffect(() => {
     setTotalMoney(
       totalCount > 0 ? (totalCount * (money / count)).toFixed(2) : 0,
@@ -26,10 +32,21 @@ const Form4 = ({route}) => {
   }, [totalCount]);
   const handleSubmit = () => {
     if (totalCount > 0) {
-      navigation.navigate('form5', {totalMoney});
-
-      setTotalMoney(0);
-      setTotalCount(0);
+      const checkValid = phoneInput.current?.isValidNumber(value);
+      setValid(checkValid ? checkValid : false);
+      if (checkValid === true) {
+        navigation.navigate('form5', {totalMoney});
+        setTotalMoney(0);
+        setTotalCount(0);
+      } else {
+        Toast.show({
+          type: 'error',
+          text2: 'Phone Number Error',
+          text1: 'Error',
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+      }
     } else {
       Toast.show({
         type: 'error',
@@ -124,8 +141,17 @@ const Form4 = ({route}) => {
                 Name
               </Text>
               <TextInput
-                style={{marginHorizontal: 20}}
-                mode="outlined"
+                style={{
+                  marginHorizontal: 20,
+                  height: 70,
+                  backgroundColor: '#F8F9F9',
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 50},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2,
+                }}
+                mode="flat"
                 label="Name"
                 placeholder="Your name"
                 right={<TextInput.Affix text="/100" />}
@@ -141,12 +167,22 @@ const Form4 = ({route}) => {
                 Address
               </Text>
               <TextInput
-                style={{marginHorizontal: 20}}
-                mode="outlined"
+                style={{
+                  marginHorizontal: 20,
+                  height: 70,
+                  backgroundColor: '#F8F9F9',
+                  shadowColor: '#000',
+                  shadowOffset: {width: 0, height: 50},
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  elevation: 2,
+                }}
+                mode="flat"
                 label="Address"
                 placeholder="Address"
                 right={<TextInput.Affix text="/100" />}
               />
+
               <Text
                 style={{
                   color: 'black',
@@ -157,13 +193,24 @@ const Form4 = ({route}) => {
                 }}>
                 Phone
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                style={{marginHorizontal: 20}}
-                mode="outlined"
-                label="Phone"
-                placeholder="Phone"
-                right={<TextInput.Affix text="/100" />}
+              <PhoneInput
+                containerStyle={{
+                  marginHorizontal: 20,
+                  width: windowWidth - 40,
+                  borderBottomWidth: 0.6,
+                }}
+                ref={phoneInput}
+                defaultValue={value}
+                defaultCode="VN"
+                layout="first"
+                onChangeText={text => {
+                  setValue(text);
+                }}
+                onChangeFormattedText={text => {
+                  setFormattedValue(text);
+                }}
+                withLightTheme
+                withShadow
               />
             </View>
           </View>
@@ -178,7 +225,7 @@ const Form4 = ({route}) => {
               <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold'}}>
                 Total:
               </Text>
-              <Text style={{color: 'red', fontSize: 14}}>${totalMoney}</Text>
+              <Text style={{color: 'red', fontSize: 20}}>${totalMoney}</Text>
             </View>
             <View style={{alignItems: 'center'}}>
               <Button

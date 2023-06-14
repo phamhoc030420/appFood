@@ -12,6 +12,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import {SpeedDial} from '@rneui/themed';
 const Form3 = ({route}) => {
   const {id, calo, img, price, title} = route.params.item;
   RNBootSplash.hide({fade: true, duration: 10});
@@ -20,6 +21,7 @@ const Form3 = ({route}) => {
   const [selectedIndex, setIndex] = useState(0);
   const [count, setCount] = useState(1);
   const [money, setMoney] = useState(price);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     setCount(1);
     setIndex(0);
@@ -62,12 +64,30 @@ const Form3 = ({route}) => {
             backgroundColor: '#FFFF',
             flex: 1,
           }}>
+          <SpeedDial
+            style={{zIndex: 100}}
+            isOpen={open}
+            icon={{name: 'edit', color: '#fff'}}
+            openIcon={{name: 'close', color: '#fff'}}
+            onOpen={() => setOpen(!open)}
+            onClose={() => setOpen(!open)}>
+            <SpeedDial.Action
+              icon={{name: 'add', color: '#fff'}}
+              title="Add"
+              onPress={() => console.log('Add Something')}
+            />
+            <SpeedDial.Action
+              icon={{name: 'delete', color: '#fff'}}
+              title="Delete"
+              onPress={() => console.log('Delete Something')}
+            />
+          </SpeedDial>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginHorizontal: 20,
-              marginTop: 17,
+              marginTop: 40,
             }}>
             <Ionicons
               style={{color: 'black'}}

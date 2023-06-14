@@ -49,13 +49,17 @@ const CardFood = ({flag}) => {
                 borderRadius: 15,
                 alignItems: 'center',
               }}>
-              <Text style={{textAlign: 'center'}}>{item.title}</Text>
+              <Text style={{textAlign: 'center', color: 'black'}}>
+                {item.title}
+              </Text>
               <Text style={{color: '#F68989', textAlign: 'center'}}>
                 {item.calo}
               </Text>
               <Image style={{width: 145, height: 142}} source={item.img} />
               <View style={{position: 'absolute', left: '37.5%', top: 200}}>
-                <Text style={{textAlign: 'center'}}>$ {item.price}</Text>
+                <Text style={{textAlign: 'center', color: 'black'}}>
+                  $ {item.price}
+                </Text>
                 <MaterialIcons
                   onPress={() => handleAddCart(item)}
                   size={20}
